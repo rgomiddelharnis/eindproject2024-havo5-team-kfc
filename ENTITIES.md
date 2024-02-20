@@ -1,4 +1,6 @@
 # Attackers (4 geesten)
+- Canvas grootte van de geesten: 2:3
+- Bij voorkeur 80 pixels hoog, en 48 breed
 ## Neutrale geest
 - Health: 200
 - Damage: 40
