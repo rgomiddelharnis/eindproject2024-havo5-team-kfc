@@ -2,9 +2,18 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=13657597)
 
 > Project Team KFC 2024 Informatica © Jasper van Es, Jaron Lugtenburg, Ahmad Yasen
+# Takenlijst
+[Jasper van Es](/JASPER.md)
+[Ahmad Yasen](/AHMAD.md)
 
 # Game
 Recreatie van Plants vs Zombies waarin AI zowel tijdens het programmeren als gedurende de game gebruikt wordt, aldus een live implementatie van AI doormiddel van het gebruik van de API.
+
+## Storyline
+We zijn in het huis van meneer de Groot, hij heeft de laatste tijd spookachtige ervaringen gehad. Wij (als speler) zijn in dienst genomen om de spoken te bestrijden en tegen te houden. De map zal er dus ook als volgt uitzien van links naar rechts: 
+---
+Slaapkamer met bed van meneer de Groot 's nachts > Game area waar de defence geplaatst moet worden > een vloerkleed/rode loper (wat dat ook mag doen in meneer zijn huis) waar de geesten vandaan komen (zie voorbeeld A)
+---
 
 ## Screens
 - Main menu
@@ -21,8 +30,12 @@ Recreatie van Plants vs Zombies waarin AI zowel tijdens het programmeren als ged
     - Game over
     - Game success
 
-## Inspiratie
-![VOorbeeld gamesherm](image.png)
+## Voorbeelden & inspiratie
+###### Voorbeeld A - huis
+![Voorbeeld gamesherm]()
+
+###### Inspiratie map
+![Voorbeeld gamesherm](images/image.png)
 ## Assets
 - Map
     - Stijl: Griezelig (spookhuis)
@@ -46,12 +59,6 @@ Recreatie van Plants vs Zombies waarin AI zowel tijdens het programmeren als ged
 - Producers
     - Wolk > Functie zonnebloem (geeft waterdruppels i.p.v. zonnetjes) (h: 10, p: 25, f: 1/24, c: 50)
     - 
-## Features
-- 
-
-## Mechanics
-
-
 ## Implementatie van AI
 
 # Rollen & taken
