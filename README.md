@@ -11,9 +11,8 @@ Recreatie van Plants vs Zombies waarin AI zowel tijdens het programmeren als ged
 
 ## Storyline
 We zijn in het huis van meneer de Groot, hij heeft de laatste tijd spookachtige ervaringen gehad. Wij (als speler) zijn in dienst genomen om de spoken te bestrijden en tegen te houden. De map zal er dus ook als volgt uitzien van links naar rechts: 
----
-Slaapkamer met bed van meneer de Groot 's nachts > Game area waar de defence geplaatst moet worden > een vloerkleed/rode loper (wat dat ook mag doen in meneer zijn huis) waar de geesten vandaan komen (zie voorbeeld A)
----
+
+> Slaapkamer met bed van meneer de Groot 's nachts > Game area waar de defence geplaatst moet worden > een vloerkleed/rode loper (wat dat ook mag doen in meneer zijn huis) waar de geesten vandaan komen (zie voorbeeld A)
 
 ## Screens
 - Main menu
