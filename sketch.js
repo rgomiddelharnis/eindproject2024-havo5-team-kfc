@@ -22,7 +22,11 @@ let levels = {}; // Refer to levels.js
 // var myRightSideBar = new p5(rightSideBar, 'rightSideBar');
 
 function preload() {
-    bgGame = loadImage("")
+    bgGame = loadImage("images/bgGame.png");
+    bgMainMenu = loadImage("images/bgMainMenu.png");
+    bgGamePaused = loadImage("images/bgGamePaused.png");
+    bgGameOver = loadImage("images/bgGameOver.png");
+    bgGameWon = loadImage("images/bgGameWon.png");
     // Load the game assets
     // levels = loadJSON('levels.json');
 }
