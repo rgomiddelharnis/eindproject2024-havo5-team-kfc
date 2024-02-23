@@ -38,6 +38,11 @@ function setup() {
             new Canvas(gameWidth, gameHeight, "fullscreen");
             background(100);
             break;
+        case "":
+            // Setup the game
+            new Canvas(gameWidth, gameHeight, "fullscreen");
+            background(17)
+            break;
     }
 }
 
