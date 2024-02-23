@@ -22,6 +22,7 @@ let levels = {}; // Refer to levels.js
 // var myRightSideBar = new p5(rightSideBar, 'rightSideBar');
 
 function preload() {
+    bgGame = loadImage("")
     // Load the game assets
     // levels = loadJSON('levels.json');
 }
