@@ -22,12 +22,13 @@ let levels = {}; // Refer to levels.js
 // var myRightSideBar = new p5(rightSideBar, 'rightSideBar');
 
 function preload() {
-    bgGame = loadImage("images/bgGame.png");
-    bgMainMenu = loadImage("images/bgMainMenu.png");
-    bgGamePaused = loadImage("images/bgGamePaused.png");
-    bgGameOver = loadImage("images/bgGameOver.png");
-    bgGameWon = loadImage("images/bgGameWon.png");
     // Load the game assets
+    // bgMainMenu = loadImage("assets/background/mainMenu.png");
+    // bgGame = loadImage("assets/background/game.png");
+    // bgGamePaused = loadImage("assets/background/gamePaused.png");
+    // bgGameOver = loadImage("assets/background/gameOver.png");
+    // bgGameWon = loadImage("assets/background/gameWon.png");
+
     // levels = loadJSON('levels.json');
 }
 
@@ -43,7 +44,17 @@ function setup() {
             new Canvas(gameWidth, gameHeight, "fullscreen");
             background(100);
             break;
-        case "":
+        case "gamePaused":
+            // Setup the game
+            new Canvas(gameWidth, gameHeight, "fullscreen");
+            background(17)
+            break;
+        case "gameOver":
+            // Setup the game
+            new Canvas(gameWidth, gameHeight, "fullscreen");
+            background(17)
+            break;
+        case "gameWon":
             // Setup the game
             new Canvas(gameWidth, gameHeight, "fullscreen");
             background(17)
