@@ -1,6 +1,6 @@
 ### WebStorm ###
-.idea/*
-.idea_modules/*
+.idea/
+.idea_modules/
 *.iml
 
 ### Visual Studio Code
