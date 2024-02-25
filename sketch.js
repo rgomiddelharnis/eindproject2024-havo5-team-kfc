@@ -1,15 +1,18 @@
 const gameWidth = 960;
 const gameHeight = 540;
-const sideBarWidth = 200;
+// const sideBarWidth = 200;
 
 let bgMainMenu, bgGame, bgGamePaused, bgGameOver, bgGameWon;
 
-let sprite;
+let startButton, settingsButton;
 
-let gameState = 'game';
+// let sprite;
+
+let gameState = 'mainMenu';
+let gameStage = 'first';
 let points = 0;
 let score = 0;
-let health = 1;
+let alive = true;
 let level = 1;
 
 let levels = {}; // Refer to levels.js
@@ -23,7 +26,7 @@ let levels = {}; // Refer to levels.js
 
 function preload() {
     // Load the game assets
-    // bgMainMenu = loadImage("assets/background/mainMenu.png");
+    bgMainMenu = loadImage("assets/background/mainMenu.jpg");
     // bgGame = loadImage("assets/background/game.png");
     // bgGamePaused = loadImage("assets/background/gamePaused.png");
     // bgGameOver = loadImage("assets/background/gameOver.png");
@@ -37,7 +40,8 @@ function setup() {
         case "mainMenu":
             // Setup the main menu
             new Canvas(gameWidth, gameHeight, "fullscreen");
-            background(200);
+            // background(bgMainMenu);
+            draw();
             break;
         case "game":
             // Setup the game
@@ -63,4 +67,21 @@ function setup() {
 }
 
 function draw() {
+    switch (gameState) {
+        case "mainMenu":
+            drawMenu();
+            break;
+        case "game":
+            // Draw the game
+            break;
+        case "gamePaused":
+            // Draw the game
+            break;
+        case "gameOver":
+            // Draw the game
+            break;
+        case "gameWon":
+            // Draw the game
+            break;
+    }
 }
