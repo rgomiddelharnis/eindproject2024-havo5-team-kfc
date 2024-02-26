@@ -2,9 +2,8 @@ const gameWidth = 960;
 const gameHeight = 540;
 // const sideBarWidth = 200;
 
-let bgMainMenu, bgGame, bgGamePaused, bgGameOver, bgGameWon;
-
-let startButton, settingsButton;
+let canvas;
+let bgMainMenuAsset, bgGameAsset, bgGamePausedAsset, bgGameOverAsset, bgGameWonAsset;
 
 // let sprite;
 
@@ -17,53 +16,27 @@ let level = 1;
 
 let levels = {}; // Refer to levels.js
 
-// Left sidebar
-// var myLeftSideBar = new p5(leftSideBar, 'leftSideBar');
-// Main game
-// var myGame = new p5(game, 'game');
-// Right sidebar
-// var myRightSideBar = new p5(rightSideBar, 'rightSideBar');
-
 function preload() {
-    // Load the game assets
-    bgMainMenu = loadImage("assets/background/mainMenu.jpg");
-    // bgGame = loadImage("assets/background/game.png");
-    // bgGamePaused = loadImage("assets/background/gamePaused.png");
-    // bgGameOver = loadImage("assets/background/gameOver.png");
-    // bgGameWon = loadImage("assets/background/gameWon.png");
+    // Background assets
+    bgMainMenuAsset = loadImage("assets/background/mainMenu.jpg");
+    // bgGameAsset = loadImage("assets/background/game.png");
+    // bgGamePausedAsset = loadImage("assets/background/gamePaused.png");
+    // bgGameOverAsset = loadImage("assets/background/gameOver.png");
+    // bgGameWonAsset = loadImage("assets/background/gameWon.png");
 
+    // Button assets
+    startButtonAsset = loadImage("assets/button/start.jpg");
+
+    // HUD assets
+
+    // Levels
     // levels = loadJSON('levels.json');
 }
 
 function setup() {
-    switch (gameState) {
-        case "mainMenu":
-            // Setup the main menu
-            new Canvas(gameWidth, gameHeight, "fullscreen");
-            // background(bgMainMenu);
-            draw();
-            break;
-        case "game":
-            // Setup the game
-            new Canvas(gameWidth, gameHeight, "fullscreen");
-            background(100);
-            break;
-        case "gamePaused":
-            // Setup the game
-            new Canvas(gameWidth, gameHeight, "fullscreen");
-            background(17)
-            break;
-        case "gameOver":
-            // Setup the game
-            new Canvas(gameWidth, gameHeight, "fullscreen");
-            background(17)
-            break;
-        case "gameWon":
-            // Setup the game
-            new Canvas(gameWidth, gameHeight, "fullscreen");
-            background(17)
-            break;
-    }
+    canvas = new Canvas(gameWidth, gameHeight, "fullscreen");
+    // Initial setup
+    setupMenu();
 }
 
 function draw() {
