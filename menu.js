@@ -10,10 +10,16 @@ function setupMenu() {
     startButton.img = startButtonAsset;
     startButton.y = 20;
     startButton.collider = 'none';
+    startButton.scale = 0.2;
 }
 
 function drawMenu() {
-    if (startButton.mouseClicked) {
-        console.log('Start button clicked')
+    // clear();
+    background(bgMainMenuAsset);
+
+    if (mouse.pressed("left")) {
+        startButton.x = mouse.x;
+        startButton.y = mouse.y;
     }
+
 }

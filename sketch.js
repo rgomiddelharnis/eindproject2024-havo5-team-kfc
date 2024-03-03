@@ -4,6 +4,7 @@ const gameHeight = 540;
 
 let canvas;
 let bgMainMenuAsset, bgGameAsset, bgGamePausedAsset, bgGameOverAsset, bgGameWonAsset;
+let startButtonAsset, settingsButtonAsset;
 
 // let sprite;
 
