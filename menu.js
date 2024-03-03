@@ -3,10 +3,10 @@ let startButton, settingsButton;
 function setupMenu() {
 // Background
     background(bgMainMenuAsset);
-// Button
-    world.gravity = 10;
-
+// Initial setup
     startButton = new Sprite();
+    settingsButton = new Sprite();
+
     startButton.img = startButtonAsset;
     startButton.y = 20;
     startButton.collider = 'none';
@@ -21,5 +21,4 @@ function drawMenu() {
         startButton.x = mouse.x;
         startButton.y = mouse.y;
     }
-
 }
