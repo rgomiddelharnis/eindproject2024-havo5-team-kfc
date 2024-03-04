@@ -1,13 +1,21 @@
-let buttonStart;
-let buttonSettings;
+let buttonStart, buttonSettings;
+let layerMainMenuMain, layerMainMenuOverlay;
+
 
 function setupMenu() {
     // Audio
 
 
     // Initial setup
-    buttonStart = new Sprite();
-    buttonSettings = new Sprite();
+    // - Layers
+    layerMainMenuMain = new Group();
+    layerMainMenuOverlay = new Group();
+
+    // - Inherited properties
+    layerMainMenuMain.collider = 'kinematic';
+
+    buttonStart = new layerMainMenuMain.Sprite();
+    buttonSettings = new layerMainMenuMain.Sprite();
 
     // - Properties
     buttonStart.img = assetButtonStart;
