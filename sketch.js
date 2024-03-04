@@ -1,15 +1,14 @@
-const gameWidth = 960;
-const gameHeight = 540;
-// const sideBarWidth = 200;
+const gameWidth = 1920;
+const gameHeight = 1080;
 
 let canvas;
-let assetBackgroundMainMenu, bgGameAsset, bgGamePausedAsset, bgGameOverAsset, bgGameWonAsset;
+let assetBackgroundMainMenu, assetBackgroundGame, assetBackgroundGamePaused, assetBackgroundGameOver, assetBackgroundGameWon;
 let assetButtonStart, settingsButtonAsset;
 
 // let sprite;
 
 let gameState = 'mainMenu';
-let gameStage = 'first';
+let gameStage = 0;
 let points = 0;
 let score = 0;
 let alive = true;

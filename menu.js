@@ -5,7 +5,6 @@ let layerMainMenuMain, layerMainMenuOverlay;
 function setupMenu() {
     // Audio
 
-
     // Initial setup
     // - Layers
     layerMainMenuMain = new Group();
@@ -22,11 +21,9 @@ function setupMenu() {
     buttonStart.scale = 80 / buttonStart.h;
     buttonStart.x = gameWidth / 2;
     buttonStart.y = gameHeight / 2;
-    buttonStart.collider = 'kinematic';
 
     buttonSettings.x = gameWidth - 20 - buttonSettings.w / 2;
     buttonSettings.y = 20 + buttonSettings.h / 2;
-    buttonSettings.collider = 'kinematic';
 }
 
 function drawMenu() {
@@ -35,9 +32,7 @@ function drawMenu() {
     // Background
     background(assetBackgroundMainMenu);
 
-
     // Main
-
     // - Animation buttonSettings
     if (buttonSettings.mouse.hovering()) buttonSettings.moveTowards(null, 10 + buttonSettings.h / 2);
     else buttonSettings.moveTowards(null, 20 + buttonSettings.h / 2);
@@ -45,11 +40,6 @@ function drawMenu() {
     // - Animation buttonStart
     if (buttonStart.mouse.hovering()) buttonStart.moveTowards(null, gameHeight / 2 - 10);
     else buttonStart.moveTowards(null, gameHeight / 2);
-
-    if (buttonStart.mouse.presses("left")) {
-    }
-    if (buttonSettings.mouse.presses("right") && buttonStart == null) {
-    }
 
 
 }
