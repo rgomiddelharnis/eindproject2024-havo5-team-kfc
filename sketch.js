@@ -3,8 +3,8 @@ const gameHeight = 540;
 // const sideBarWidth = 200;
 
 let canvas;
-let bgMainMenuAsset, bgGameAsset, bgGamePausedAsset, bgGameOverAsset, bgGameWonAsset;
-let startButtonAsset, settingsButtonAsset;
+let assetBackgroundMainMenu, bgGameAsset, bgGamePausedAsset, bgGameOverAsset, bgGameWonAsset;
+let assetButtonStart, settingsButtonAsset;
 
 // let sprite;
 
@@ -19,14 +19,14 @@ let levels = {}; // Refer to levels.js
 
 function preload() {
     // Background assets
-    bgMainMenuAsset = loadImage("assets/background/mainMenu.jpg");
+    assetBackgroundMainMenu = loadImage("assets/background/mainMenu.jpg");
     // bgGameAsset = loadImage("assets/background/game.png");
     // bgGamePausedAsset = loadImage("assets/background/gamePaused.png");
     // bgGameOverAsset = loadImage("assets/background/gameOver.png");
     // bgGameWonAsset = loadImage("assets/background/gameWon.png");
 
     // Button assets
-    startButtonAsset = loadImage("assets/button/start.jpg");
+    assetButtonStart = loadImage("assets/button/start.jpg");
 
     // HUD assets
 
@@ -46,7 +46,7 @@ function draw() {
             drawMenu();
             break;
         case "game":
-            // Draw the game
+            drawGame()
             break;
         case "gamePaused":
             // Draw the game
