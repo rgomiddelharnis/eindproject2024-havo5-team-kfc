@@ -1,65 +1,42 @@
-let game = function (p) {
-    p.setup = function () {
-        new Canvas(gameWidth, gameHeight);
-    };
+let startTime, runtime, timerSprite;
 
-    p.draw = function () {
-        // Check the game state
-        switch (gameState) {
-            case 'mainMenu':
-                // Draw the main menu
-                break;
-            case 'game':
-                // General checks & updates
-                if (health = 0) {
-                    break;
-                } // Game over
-                if (score >= 1000) {
-                    gameState = 'gameWon';
-                    break;
-                } // Game won
-                // Draw the background
+let defenderGroup, attackerGroup;
+let allDefenders, allAttackers = [];
 
-                // Draw the overlay
-                overlay = rect(0, 0, gameWidth, gameHeight);
-                overlay.background(0, 0, 0, 100);
-
-                // Draw the objects
-                for (let i = 0; i < ghosts.length; i++) {
-                    ghosts[i].draw();
-                }
-                for (let row = 0; row < obstacles.length; row++) {
-                    for (let pos = 0; j < obstacles[row].length; j++) {
-                        obstacles[row][pos].draw();
-                    }
-                }
-                break;
-            case 'gamePaused':
-                // Draw the game paused screen
-                break;
-            case 'gameOver':
-                // Draw the game over screen
-                break;
-
-            default:
-                p.text('Error: Unknown game state', 10, 10);
-                break;
-        }
-
-        // Background
-        p.background(100);
-        p.text('Game', 10, 50);
-
-    };
-};
-
-let ghosts = [];
-let obstacles = {0: [], 1: [], 2: [], 3: [], 4: []};
 
 function setupGame() {
+    // Timer
+    timerSprite = new Sprite();
+    timerSprite.x = timerSprite.w / 2 + 20;
+    timerSprite.y = timerSprite.h / 2 + 20;
+    timerSprite.textSize = 24;
 
+    defenderGroup = new Group();
+    attackerGroup = new Group();
+    attackerGroup.h = attackerGroup.w = 50;
+    attackerGroup.x = gameWidth - 300;
+    attackerGroup.y = () => random(120, gameHeight - 120);
+    attackerGroup.vel.x = () => random(-3, -0.5);
+
+    setInterval(() => {
+        allAttackers.push(new attackerGroup.Sprite());
+    }, 3 * 1000);
+
+
+    startTime = new Date();
 }
 
 function drawGame() {
+    runtime = Math.floor((new Date().getTime() - startTime.getTime()) / 1000);
 
+    clear();
+    background(assetGameBackGround);
+
+    for (let i = 0; i < allAttackers.length; i++) {
+        if (allAttackers[i].x <= 250) {
+            allAttackers[i].remove();
+        }
+    }
+
+    timerSprite.text = runtime;
 }

@@ -1,5 +1,6 @@
 let buttonStart, buttonSettings;
-let layerMainMenuMain, layerMainMenuOverlay;
+let spriteLayerOverlayScreenMainMenu;
+let layerMainScreenMainMenu, layerOverlayScreenMainMenu;
 
 
 function setupMenu() {
@@ -7,14 +8,24 @@ function setupMenu() {
 
     // Initial setup
     // - Layers
-    layerMainMenuMain = new Group();
-    layerMainMenuOverlay = new Group();
+    layerMainScreenMainMenu = new Group();
+    layerOverlayScreenMainMenu = new Group();
 
     // - Inherited properties
-    layerMainMenuMain.collider = 'kinematic';
+    // - - Layer main
+    layerMainScreenMainMenu.collider = 'kinematic';
 
-    buttonStart = new layerMainMenuMain.Sprite();
-    buttonSettings = new layerMainMenuMain.Sprite();
+    buttonStart = new layerMainScreenMainMenu.Sprite();
+    buttonSettings = new layerMainScreenMainMenu.Sprite();
+
+    // - - Layer overlay
+    layerOverlayScreenMainMenu.collider = 'kinematic';
+
+    spriteLayerOverlayScreenMainMenu = new layerOverlayScreenMainMenu.Sprite();
+    spriteLayerOverlayScreenMainMenu.h = gameHeight * 0.75;
+    spriteLayerOverlayScreenMainMenu.w = gameWidth * 0.75;
+
+    layerOverlayScreenMainMenu.visibility = 'invisible';
 
     // - Properties
     buttonStart.img = assetButtonStart;

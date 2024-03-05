@@ -2,12 +2,14 @@ const gameWidth = 1920;
 const gameHeight = 1080;
 
 let canvas;
-let assetBackgroundMainMenu, assetBackgroundGame, assetBackgroundGamePaused, assetBackgroundGameOver, assetBackgroundGameWon;
+let assetBackgroundMainMenu, assetBackgroundGame, assetBackgroundGamePaused, assetBackgroundGameOver,
+    assetBackgroundGameWon;
+let assetGameBackGround;
 let assetButtonStart, settingsButtonAsset;
 
 // let sprite;
 
-let gameState = 'mainMenu';
+let gameState = 'game';
 let gameStage = 0;
 let points = 0;
 let score = 0;
@@ -24,6 +26,7 @@ function preload() {
     // bgGameOverAsset = loadImage("assets/background/gameOver.png");
     // bgGameWonAsset = loadImage("assets/background/gameWon.png");
 
+    assetGameBackGround = loadImage("images/image-4.png")
     // Button assets
     assetButtonStart = loadImage("assets/button/start.jpg");
 
@@ -36,7 +39,8 @@ function preload() {
 function setup() {
     canvas = new Canvas(gameWidth, gameHeight, "fullscreen");
     // Initial setup
-    setupMenu();
+    // setupMenu();
+    setupGame()
 }
 
 function draw() {
