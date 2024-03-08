@@ -33,10 +33,21 @@ function drawGame() {
     clear();
     background(assetGameBackGround);
 
-    for (let i = 0; i < allAttackers.length; i++) {
-        if (allAttackers[i].x <= 250) {
-            allAttackers[i].remove();
+    // Entity logic
+    for (let i = 0; i < attackerGroup.length; i++) {
+        // Location checkers
+        let attacker = attackerGroup[i];
+        if (attacker.x <= frontLineXPos) {
+            // Point of no return
         }
+
+        // Overlap checkers
+
+
+
+    }
+
+    for (let i = 0; i < defenderGroup.length; i++) {
     }
 
     timerSprite.text = runtime;
