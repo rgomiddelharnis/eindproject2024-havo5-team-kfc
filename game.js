@@ -16,12 +16,13 @@ function setupGame() {
     attackerGroup.h = attackerGroup.w = 50;
     attackerGroup.x = gameWidth - 300;
     attackerGroup.y = () => random(120, gameHeight - 120);
-    attackerGroup.vel.x = () => random(-3, -0.5);
+    // attackerGroup.vel.x = () => random(-3, -0.5);
+    attackerGroup.vel.x = -4;
 
-    setInterval(() => {
-        allAttackers.push(new attackerGroup.Sprite());
-    }, 3 * 1000);
-
+    // Test spawning
+    let randomSpawn = setInterval(() => {
+        new attackerGroup.Sprite();
+    }, 7 * 1000);
 
     startTime = new Date();
 }
