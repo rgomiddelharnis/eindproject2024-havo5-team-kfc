@@ -16,8 +16,6 @@ let score = 0;
 let alive = true;
 let level = 1;
 
-let levels = {}; // Refer to levels.js
-
 function preload() {
     // Background assets
     assetBackgroundMainMenu = loadImage("assets/background/mainMenu.jpg");
@@ -26,7 +24,7 @@ function preload() {
     // bgGameOverAsset = loadImage("assets/background/gameOver.png");
     // bgGameWonAsset = loadImage("assets/background/gameWon.png");
 
-    assetGameBackGround = loadImage("images/image-4.png")
+    assetGameBackGround = loadImage("images/image-3.png")
     // Button assets
     assetButtonStart = loadImage("assets/button/start.jpg");
 
@@ -37,7 +35,7 @@ function preload() {
 }
 
 function setup() {
-    canvas = new Canvas(gameWidth, gameHeight, "fullscreen");
+    canvas = new Canvas(gameWidth, gameHeight, "fullscreen", "16:9");
     // Initial setup
     // setupMenu();
     setupGame()

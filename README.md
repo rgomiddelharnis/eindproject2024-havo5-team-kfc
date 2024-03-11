@@ -5,8 +5,8 @@
 
 # Takenlijst
 
-[Jasper van Es](/JASPER.md)
-[Ahmad Yasen](/AHMAD.md)
+- [Jasper van Es](/JASPER.md)
+- [Ahmad Yasen](/AHMAD.md)
 
 # Game
 

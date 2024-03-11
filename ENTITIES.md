@@ -69,6 +69,7 @@
         - Ca. 1 sec
 - Animaties
     - Bewegen, denk aan het flapperen van de laken van een geest het het op en neer bewegen is ook wel toepassend.
+    - Aanvallen
     - Dood gaan, denk aan het inzakken, ontploffen, obserberen van water (waar ze slecht tegen kunnen)
 
 # Defenders
@@ -81,4 +82,4 @@
 
 ## heilige kruis
 
-## Airco
+## Spiegel
