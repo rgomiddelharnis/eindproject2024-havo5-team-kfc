@@ -2,6 +2,7 @@
 
 > ! Noteer de pagina's waar je alle geluiden vandaan hebt in een bestand. Dit is nodig voor de rechten van de geluiden.
 
+> Game: Haunted Hacker: Spirits vs. Waters
 - Zoek op [freesounds.org](https://freesound.org/)
 - Programma vinden voor bewerken geluid en effects toevoegen (samen)
 

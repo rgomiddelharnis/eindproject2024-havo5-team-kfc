@@ -1,18 +1,19 @@
 const enemyStartLine = gameWidth - 150;
 
-let startTime, runtime, timerSprite;
+let startTime, runtime, timer;
 let defenderGroup, attackerGroup, overlayGroup, hudGroup;
 let frontLineXPos = 500;
 let levelData = {};
+let ghostTypes = {1: 1, 2: 2, 3: 3, 4: 4};
 
 
 
 function setupGame() {
     // Timer
-    timerSprite = new Sprite();
-    timerSprite.x = timerSprite.w / 2 + 20;
-    timerSprite.y = timerSprite.h / 2 + 20;
-    timerSprite.textSize = 24;
+    timer = new Sprite();
+    timer.x = timer.w / 2 + 20;
+    timer.y = timer.h / 2 + 20;
+    timer.textSize = 24;
 
     defenderGroup = new Group();
     defenderGroup.layer = 1;
@@ -65,7 +66,7 @@ function drawGame() {
 
     }
 
-    timerSprite.text = runtime;
+    timer.text = runtime;
 }
 
 function loadLevel(level) {
