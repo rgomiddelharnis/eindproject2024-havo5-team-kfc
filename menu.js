@@ -18,20 +18,17 @@ function setupMenu() {
     buttonStart = new layerMainScreenMainMenu.Sprite();
     buttonSettings = new layerMainScreenMainMenu.Sprite();
 
-    // - - Layer overlay
-    layerOverlayScreenMainMenu.collider = 'kinematic';
-
-    spriteLayerOverlayScreenMainMenu = new layerOverlayScreenMainMenu.Sprite();
-    spriteLayerOverlayScreenMainMenu.h = gameHeight * 0.75;
-    spriteLayerOverlayScreenMainMenu.w = gameWidth * 0.75;
-
-    layerOverlayScreenMainMenu.visibility = 'invisible';
+    // // - - Layer overlay
+    // layerOverlayScreenMainMenu.collider = 'kinematic';
+    //
+    // spriteLayerOverlayScreenMainMenu = new layerOverlayScreenMainMenu.Sprite();
+    // spriteLayerOverlayScreenMainMenu.h = gameHeight * 0.75;
+    // spriteLayerOverlayScreenMainMenu.w = gameWidth * 0.75;
 
     // - Properties
     buttonStart.img = assetButtonStart;
-    buttonStart.scale = 80 / buttonStart.h;
     buttonStart.x = gameWidth / 2;
-    buttonStart.y = gameHeight / 2;
+    buttonStart.y = gameHeight - buttonStart.h - 100;
 
     buttonSettings.x = gameWidth - 20 - buttonSettings.w / 2;
     buttonSettings.y = 20 + buttonSettings.h / 2;
@@ -50,7 +47,7 @@ function drawMenu() {
 
     // - Animation buttonStart
     if (buttonStart.mouse.hovering()) buttonStart.moveTowards(null, gameHeight / 2 - 10);
-    else buttonStart.moveTowards(null, gameHeight / 2);
+    else buttonStart.moveTowards(null, gameHeight - buttonStart.h - 100);
 
 
 }

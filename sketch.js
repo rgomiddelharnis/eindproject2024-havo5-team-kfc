@@ -5,7 +5,8 @@ let canvas;
 let assetBackgroundMainMenu, assetBackgroundGame, assetBackgroundGamePaused, assetBackgroundGameOver,
     assetBackgroundGameWon;
 let assetGameBackGround;
-let assetButtonStart, settingsButtonAsset;
+let assetButtonStart, assetButtonSettings;
+let assetGhostNormal, assetGhostGangster, assetGhostMysterious, assetGhostFemale;
 
 // let sprite;
 
@@ -17,25 +18,22 @@ let alive = true;
 let level = 1;
 
 function preload() {
-    // Background assets
-    assetBackgroundMainMenu = loadImage("assets/background/mainMenu.jpg");
-    // bgGameAsset = loadImage("assets/background/game.png");
-    // bgGamePausedAsset = loadImage("assets/background/gamePaused.png");
-    // bgGameOverAsset = loadImage("assets/background/gameOver.png");
-    // bgGameWonAsset = loadImage("assets/background/gameWon.png");
-
+    // Background asset
+    assetBackgroundMainMenu = loadImage("asset/background/mainMenu.jpg");
     assetGameBackGround = loadImage("images/image-3.png")
-    // Button assets
-    assetButtonStart = loadImage("assets/button/start.jpg");
 
-    // HUD assets
+    // Button asset
+    assetButtonStart = loadImage("asset/button/start.png");
+    assetButtonSettings = loadImage("asset/button/settings.png")
+
+    // HUD asset
 
     // Levels
     // levels = loadJSON('levels.json');
 }
 
 function setup() {
-    canvas = new Canvas(gameWidth, gameHeight, "fullscreen", "16:9");
+    canvas = new Canvas(gameWidth, gameHeight, "fullscreen");
     // Initial setup
     // setupMenu();
     setupGame()

@@ -1,11 +1,10 @@
 const enemyStartLine = gameWidth - 150;
 
-let startTime, runtime, timer;
+let timer, runtime = 0;
 let defenderGroup, attackerGroup, overlayGroup, hudGroup;
 let frontLineXPos = 500;
 let levelData = {};
 let ghostTypes = {1: 1, 2: 2, 3: 3, 4: 4};
-
 
 
 function setupGame() {
@@ -38,12 +37,10 @@ function setupGame() {
     let randomSpawn = setInterval(() => {
         new attackerGroup.Sprite();
     }, 4 * 1000);
-
-    startTime = new Date();
 }
 
 function drawGame() {
-    runtime = Math.floor((new Date().getTime() - startTime.getTime()) / 1000);
+    runtime = Math.floor(frameCount / 60);
 
     clear();
     background(assetGameBackGround);
@@ -54,7 +51,7 @@ function drawGame() {
 
         // Location checkers
         if (attacker.x <= frontLineXPos) {
-            attacker.moveTowards(150, gameHeight/2, 1);
+            attacker.moveTowards(150, gameHeight / 2, 1);
 
         }
         // Overlap checkers
