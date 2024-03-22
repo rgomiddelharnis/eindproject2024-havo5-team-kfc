@@ -64,7 +64,6 @@
             - Waterpistool > 100 druppels
             - wolk > 50 druppels
             - Gebroken vloer, water val > 25 druppels
-            - (heilige) Kruis > 50 druppels
             - spiegel > 200 druppels
 
 # Game
