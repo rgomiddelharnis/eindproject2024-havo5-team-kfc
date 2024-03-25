@@ -80,6 +80,4 @@
 
 ## Gebroken vloer
 
-## heilige kruis
-
 ## Spiegel
