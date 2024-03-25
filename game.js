@@ -164,14 +164,14 @@ function setupGame() {
     // Defender group
     defenderGroup = new Group();
     defenderGroup.layer = 1;
-    defenderGroup.collider = "kinematic";
+    // defenderGroup.collider = "kinematic";
 
     // Attacker group
     attackerGroup = new Group();
-    attackerGroup.layer = 1;
+    attackerGroup.layer = 2;
     attackerGroup.h = attackerGroup.w = 50;
     attackerGroup.x = 2000;
-    attackerGroup.y = () => getGridPos(1920, random(140, 940))[1];
+    attackerGroup.y = () => getGridPos(1920, random(140, 940))["y"];
     // attackerGroup.vel.x = () => random(-3, -0.5);
     attackerGroup.vel.x = -4;
     attackerGroup.collider = "kinematic";
@@ -248,8 +248,10 @@ function drawGame() {
         isSelectingOnGrid = !isSelectingOnGrid;
     }
 
+    // console.log(defenderGroup)
+
     // Toggle grid selector mode
-    if (mouse.presses("left")) {
+    if (mouse.presses("right")) {
         isSelectingOnGrid = !isSelectingOnGrid;
     }
 
@@ -263,6 +265,9 @@ function drawGame() {
 
         }
         // Overlap checkers
+        if (attacker.overlaps(defenderGroup)) {
+            console.log("Test");
+        }
 
     }
 
