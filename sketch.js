@@ -5,7 +5,7 @@ let canvas;
 
 let gameState = 'game';
 let gameStage = 0;
-let points = 0;
+let points = 50;
 let score = 0;
 let alive = true;
 let level = 1;

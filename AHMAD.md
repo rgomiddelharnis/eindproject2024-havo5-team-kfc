@@ -16,8 +16,8 @@
         - [x] Dood gaan geest (normal) -> "ghostDying.mp3"
     - Geest vrouwelijk
         - [x] Geluid wanneer die gewoon beweegt (mopperen/zeuren ofzo)
-            - Alt A -> "ghostRoamingA.mp3"
-            - Alt B -> "ghostRoamingB.mp3"
+            - Alt A -> "ghostFemaleRoamingA.mp3"
+            - Alt B -> "ghostFemaleRoamingB.mp3"
         - [x] Dood gaan geest (female) -> "ghostFemaleDying.mp3"
     - Geest stoer
         - [x] Geluid wanneer die gewoon beweegt (rappen of iets dergelijks) -> "ghostRoamingA.mp3"
