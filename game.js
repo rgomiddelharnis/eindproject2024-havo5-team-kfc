@@ -200,7 +200,7 @@ function setupGame() {
     };
 
     attackerGroup.overlaps(mirrorGroup, (attacker, mirror) => {
-        if (attacker.type !== 2) {
+        if (attacker.type !== 3) {
             mirror.health--;
             attacker.remove();
             attackerTypes[attacker.type]["deathSound"].play();
@@ -423,8 +423,7 @@ function setupGame() {
 }
 
 function drawGame() {
-    allSprites.autoDraw = false;
-    if (alive) {
+    if (gameStage === 0) {
         timeHandler.update();
 
         // console.log(timer.getRuntime() + " " + frameCount + " " + timer.getTime());
@@ -453,24 +452,24 @@ function drawGame() {
             bubble.text = "PLAATS SNEL VERDEDIGERS OM ZE TEGEN TE HOUDEN!";
         } else if (timeHandler.getTime() >= 13 && timeHandler.getTime() < 18) {
             bubble.text = "GEBRUIK DE KAARTEN AAN DE BOVENKANT VAN HET SCHERM!";
-        } else if (timeHandler.getTime() >= 18 && timeHandler.getTime() < 21) {
+        } else if (timeHandler.getTime() >= 18 && timeHandler.getTime() < 18) {
             bubble.text = "VEEL SUCCES! EN BEDANKT!!";
-        } else if (timeHandler.getTime() >= 21 && timeHandler.getTime() < 30) {
+        } else if (timeHandler.getTime() >= 18 && timeHandler.getTime() < 30) {
             bubble.visible = false;
             character.moveTowards(-400, gameHeight / 2, 0.3);
         } else if (timeHandler.getTime() >= 30) {
             character.visible = false;
         }
-        if (timeHandler.getRuntime() / 60 === 25) {
+        if (timeHandler.getRuntime() / 60 === 20) {
             timeHandler.setInterval("ghostSpawn", 6 * 60, 4 * 6 * 60);
         }
 
-        if (timeHandler.getRuntime() / 60 === 25 + 4 * 6 * 2) {
+        if (timeHandler.getRuntime() / 60 === 20 + 4 * 6 * 2) {
             timeHandler.setInterval("ghostSpawn", 4 * 60, 14 * 4 * 60);
             audioBackgroundWave.loop();
             audioBackgroundMain.pause();
         }
-        if (timeHandler.getRuntime() / 60 === 25 + 4 * 8 + 14 * 4) {
+        if (timeHandler.getRuntime() / 60 === 20 + 4 * 8 + 14 * 4) {
             timeHandler.setInterval("ghostSpawn", 8 * 60);
             audioBackgroundWave.pause();
             audioBackgroundMain.loop();
@@ -569,7 +568,7 @@ function drawGame() {
 
         // ghostSpawn interval
         if (timeHandler.getIntervalTimeLeft("ghostSpawn") === 0) {
-            let num = Math.floor(random(4));
+            let num = Math.floor(random() * 4);
             switch (num) {
                 case 0:
                     new normalGhostGroup.Sprite();
@@ -599,7 +598,10 @@ function drawGame() {
 
             if (attacker.x <= 150) {
                 audioSplashA.play();
-                alive = false;
+                gameStage++;
+                audioBackgroundMain.pause();
+                audioBackgroundWave.pause();
+                allSprites.remove();
             }
 
         }
@@ -652,21 +654,21 @@ function drawGame() {
         console.log("Grid available: GRIDAV, selecting: ISSEL, grid mode: GRIDMO; GRIDSELMO, placing: PLACINGMO".replace("GRIDAV", gridAvailable).replace("ISSEL", isSelectingOnGrid).replace("GRIDMO", gridMode).replace("GRIDSELMO", gridSelectorMode).replace("PLACINGMO", placingMode));
 
         allSprites.draw();
-    } else if (gameStage > 1) {
-        if (gameStage === 2) {
+    } else if (gameStage > 0) {
+        clear();
+        if (gameStage === 1) {
+            allSprites.remove();
             gameStage++;
-            gameOverButton = new overlayGroup.Sprite(gameWidth / 2, gameHeight / 3 * 2);
-        }
+            // gameOverButton = new overlayGroup.Sprite(gameWidth / 2, gameHeight / 3 * 2, 400, 100);
+            // gameOverButton.text = "RESTART"
 
+        }
         if (gameOverButton.mouse.presses("left")) {
             audioMouseClickA.play();
             switchScreen("game");
+
         }
-
-        clear();
-        background();
-        gameOverButton.draw();
-
+        background(assetGameOverScreen);
     }
 }
 
