@@ -1,15 +1,17 @@
 const enemyStartLine = gameWidth - 150;
 
-// let cursor;
+let cursor;
 
 // Time handler
 let timeHandler;
 
 let mouseOnGridPos;
-let clockInfoSprite, selectingInfoSprite, pointsInfoSprite;
+let character, bubble;
+let clockInfoSprite, pointsInfoSprite;
 let defenderGroup, vacuumGroup, waterGunGroup, brokenFloorGroup, mirrorGroup, cloudGroup, attackerGroup, overlayGroup,
     hudGroup, hudCardsGroup, projectilesGroup, informationHUDGroup;
-let frontLineXPos = 500;
+let normalGhostGroup, femaleGhostGroup, gangsterGhostGroup, mysteriousGhostGroup;
+let frontLineXPos = 300;
 let levelData = {};
 
 // Grid related
@@ -32,63 +34,7 @@ let rows = {
     row4: {minInc: 620, maxExc: 780, center: 700, height: 160},
     row5: {minInc: 780, maxExc: 940, center: 860, height: 160}
 };
-// let grid = {
-//     row1: {
-//         column1: null,
-//         column2: null,
-//         column3: null,
-//         column4: null,
-//         column5: null,
-//         column6: null,
-//         column7: null,
-//         column8: null,
-//         column9: null
-//     },
-//     row2: {
-//         column1: null,
-//         column2: null,
-//         column3: null,
-//         column4: null,
-//         column5: null,
-//         column6: null,
-//         column7: null,
-//         column8: null,
-//         column9: null
-//     },
-//     row3: {
-//         column1: null,
-//         column2: null,
-//         column3: null,
-//         column4: null,
-//         column5: null,
-//         column6: null,
-//         column7: null,
-//         column8: null,
-//         column9: null
-//     },
-//     row4: {
-//         column1: null,
-//         column2: null,
-//         column3: null,
-//         column4: null,
-//         column5: null,
-//         column6: null,
-//         column7: null,
-//         column8: null,
-//         column9: null
-//     },
-//     row5: {
-//         column1: null,
-//         column2: null,
-//         column3: null,
-//         column4: null,
-//         column5: null,
-//         column6: null,
-//         column7: null,
-//         column8: null,
-//         column9: null
-//     }
-// };
+
 let gridMode = "";
 let placingMode = "";
 
@@ -100,46 +46,13 @@ let gridSelectorSprite;
 let hud, hudCardFloor, hudCardCloud, hudCardWaterGun, hudCardMirror;
 
 // Entities
-let attackerTypes = {
-    ghostNormal: {
-        health: 200,
-        damage: 30,
-        velocity: 2.5,
-        asset: assetGhostNormal,
-        roamingSound: [audioGhostRoamingA],
-        deathSound: audioGhostDying
-    },
-    ghostFemale: {
-        health: 200,
-        damage: 30,
-        velocity: 2.5,
-        asset: assetGhostFemale,
-        roamingSound: [audioGhostFemaleRoamingA, audioGhostFemaleRoamingB],
-        deathSound: audioGhostFemaleDying
-    },
-    ghostGangster: {
-        health: 260,
-        damage: 30,
-        velocity: 2.5,
-        asset: assetGhostGangster,
-        roamingSound: [audioGhostRoamingA],
-        deathSound: audioGhostDying
-    },
-    ghostMysterious: {
-        health: 200,
-        damage: 30,
-        velocity: 2.5,
-        asset: assetGhostMysterious,
-        roamingSound: [audioGhostRoamingB],
-        deathSound: audioGhostDying
-    }
-};
+let attackerTypes;
 let defenderTypes = {
     vacuum: null,
-    waterGun: {price: 100, damage: 20, health: 80},
+    waterGun: {price: 100, damage: 60, health: 80},
     brokenFloor: {price: 25, slowingRate: 3, usageTime: 20},
     mirror: {price: 200, health: 40, life: 2},
-    cloud: {price: 50, productionTime: 12, productionAmount: 10, health: 50}
+    cloud: {price: 50, productionTime: 12, productionAmount: 30, health: 50}
 }
 
 class gameTimer {
@@ -227,54 +140,202 @@ class gameTimer {
 
 }
 
+function activateVacuum(vacuum) {
+    vacuum.activated = true;
+    vacuum.vel.x = 3;
+    vacuum.life = 20 * 60;
+    audioVacuum.play();
+}
+
 function setupGame() {
     timeHandler = new gameTimer(60);
 
-    // Defender group
     defenderGroup = new Group();
-    defenderGroup.layer = 1;
-    // defenderGroup.collider = "kinematic";
     vacuumGroup = new defenderGroup.Group();
-
-
     waterGunGroup = new defenderGroup.Group();
-
-
     brokenFloorGroup = new defenderGroup.Group();
-
-
     mirrorGroup = new defenderGroup.Group();
-
-
     cloudGroup = new defenderGroup.Group();
+    attackerGroup = new Group();
+    normalGhostGroup = new attackerGroup.Group();
+    femaleGhostGroup = new attackerGroup.Group();
+    gangsterGhostGroup = new attackerGroup.Group();
+    mysteriousGhostGroup = new attackerGroup.Group();
+    projectilesGroup = new Group();
+
+    attackerTypes = {
+        1: {
+            health: 200,
+            damage: 30,
+            velocity: -2,
+            asset: assetGhostNormal,
+            roamingSound: [audioGhostRoamingA],
+            deathSound: audioGhostDying
+        },
+        2: {
+            health: 200,
+            damage: 30,
+            velocity: -2,
+            asset: assetGhostFemale,
+            roamingSound: [audioGhostFemaleRoamingA, audioGhostFemaleRoamingB],
+            deathSound: audioGhostFemaleDying
+        },
+        3: {
+            health: 260,
+            damage: 30,
+            velocity: -1.5,
+            asset: assetGhostGangster,
+            roamingSound: [audioGhostRoamingA],
+            deathSound: audioGhostDying
+        },
+        4: {
+            health: 200,
+            damage: 30,
+            velocity: -2.5,
+            asset: assetGhostMysterious,
+            roamingSound: [audioGhostRoamingB],
+            deathSound: audioGhostDying
+        }
+    };
+
+    attackerGroup.overlaps(mirrorGroup, (attacker, mirror) => {
+        mirror.health--;
+        attacker.remove();
+        attackerTypes[attacker.type]["deathSound"].play();
+        if (mirror.health === 1) {
+            mirror.changeAni("broken");
+            audioBreakMirror.play();
+        } else if (mirror.health === 0) {
+            mirror.remove();
+            audioDestroyMirror.play();
+        }
+    });
+
+    vacuumGroup.scale = 0.9;
+    vacuumGroup.img = assetVacuum;
+    vacuumGroup.activated = false;
+    for (let i = 0; i < 5; i++) {
+        new vacuumGroup.Sprite(400, 220 + i * 160);
+
+    }
+
+
+    // Defender group
+    defenderGroup.layer = 1;
+    defenderGroup.collider = "none";
+
+    projectilesGroup.vel.x = 5;
+    projectilesGroup.collider = "none";
+    projectilesGroup.img = assetWaterProjectile;
+
+    attackerGroup.scale = 0.95;
+
+    projectilesGroup.overlaps(attackerGroup, (projectile, attacker) => {
+        if (!damageEntity(attacker, defenderTypes["waterGun"]["damage"])) {
+            attackerTypes[attacker.type]["deathSound"].play();
+        } else {
+            audioPlop.play();
+        }
+
+        projectile.remove();
+        audioSplashB.play();
+    });
+
+    attackerGroup.overlaps(vacuumGroup, (attacker, vacuum) => {
+        if (vacuum.activated) {
+            attacker.remove();
+            attackerTypes[attacker.type]["deathSound"].play();
+        } else {
+            activateVacuum(vacuum);
+            attacker.remove();
+            attackerTypes[attacker.type]["deathSound"].play();
+        }
+    });
+
+    attackerGroup.overlaps(brokenFloorGroup, (attacker, brokenFloor) => {
+        attacker.vel.x /= defenderTypes["brokenFloor"]["slowingRate"];
+    });
+
+    attackerGroup.overlapped(brokenFloorGroup, (attacker, brokenFloor) => {
+        attacker.vel.x *= defenderTypes["brokenFloor"]["slowingRate"];
+    });
+
+
+    waterGunGroup.addAni("idle", "asset/art/defender/Waterpistool.png");
+    waterGunGroup.addAni("shooting", loadAnimation(
+        "asset/art/defender/Waterpistool.png",
+        "asset/art/defender/Waterpistool met druppel klein.png",
+        "asset/art/defender/Waterpistool met druppel groot.png"
+    ));
+
+    brokenFloorGroup.img = assetBrokenFloor;
+
+    mirrorGroup.health = 2;
+
+    mirrorGroup.addAni("inTact", "asset/art/defender/Spiegel.png");
+    mirrorGroup.addAni("broken", "asset/art/defender/Spiegel gebroken.png");
+
+    cloudGroup.img = assetCloud;
 
     // Attacker group
-    attackerGroup = new Group();
     attackerGroup.layer = 2;
-    attackerGroup.h = attackerGroup.w = 50;
     attackerGroup.x = 2000;
     attackerGroup.y = () => getGridPos(1920, random(140, 940))["y"];
-    // attackerGroup.vel.x = () => random(-3, -0.5);
-    attackerGroup.vel.x = -4;
     attackerGroup.collider = "kinematic";
 
-    projectilesGroup = new Group();
+    normalGhostGroup.img = assetGhostNormal;
+    normalGhostGroup.type = 1;
+    normalGhostGroup.vel.x = attackerTypes[1]["velocity"];
+    normalGhostGroup.health = attackerTypes[1]["health"];
+    normalGhostGroup.damage = attackerTypes[1]["damage"];
+
+    femaleGhostGroup.img = assetGhostFemale;
+    femaleGhostGroup.type = 2;
+    femaleGhostGroup.vel.x = attackerTypes[2]["velocity"];
+    femaleGhostGroup.health = attackerTypes[2]["health"];
+    femaleGhostGroup.damage = attackerTypes[2]["damage"];
+
+
+    gangsterGhostGroup.img = assetGhostGangster;
+    gangsterGhostGroup.type = 3;
+    gangsterGhostGroup.vel.x = attackerTypes[3]["velocity"];
+    gangsterGhostGroup.health = attackerTypes[3]["health"];
+    gangsterGhostGroup.damage = attackerTypes[3]["damage"];
+
+
+    mysteriousGhostGroup.img = assetGhostMysterious;
+    mysteriousGhostGroup.type = 4;
+    mysteriousGhostGroup.vel.x = attackerTypes[4]["velocity"];
+    mysteriousGhostGroup.health = attackerTypes[4]["health"];
+    mysteriousGhostGroup.damage = attackerTypes[4]["damage"];
 
     overlayGroup = new Group();
     overlayGroup.layer = 10;
     overlayGroup.collider = 'none';
-    // Timer
+
+    character = new overlayGroup.Sprite();
+    character.img = assetCharacter;
+    character.x = -120;
+
+    bubble = new overlayGroup.Sprite();
+    bubble.img = assetBubble;
+    bubble.scale = 0.5
+    bubble.x = 1000;
+    bubble.y = gameHeight / 2 - 100;
+    bubble.textSize = 24;
+    bubble.visible = false;
 
     informationHUDGroup = new Group();
-    informationHUDGroup.collider = "none";
-    informationHUDGroup.layer = 20;
-    informationHUDGroup.fill = color(0, 0);
-    informationHUDGroup.strokeWeight = 0;
-    informationHUDGroup.textSize = 24;
-    informationHUDGroup.textFill = "white";
+    {
+        informationHUDGroup.collider = "none";
+        informationHUDGroup.layer = 20;
+        informationHUDGroup.fill = color(0, 0);
+        informationHUDGroup.strokeWeight = 0;
+        informationHUDGroup.textSize = 24;
+        informationHUDGroup.textFill = "white";
+    } // information hud group properties
 
     clockInfoSprite = new informationHUDGroup.Sprite(80, 60);
-    selectingInfoSprite = new informationHUDGroup.Sprite(80, 80);
     pointsInfoSprite = new informationHUDGroup.Sprite(486, 100);
 
     gridSelectorSprite = new overlayGroup.Sprite();
@@ -289,42 +350,60 @@ function setupGame() {
     // cursor.changeAni("default");
 
     hudGroup = new Group();
+    hudGroup.collider = "kinematic";
     hudGroup.layer = 15;
-    hudGroup.collider = 'kinematic';
-
-    hudCardsGroup = new hudGroup.Group();
-
 
     hud = new hudGroup.Sprite(700, 61);
     hud.img = assetGameBackgroundHUD;
 
-    hudCardFloor = new hudCardsGroup.Sprite(611, 61);
-    hudCardFloor.img = assetHUDCardBrokenFloor;
-    hudCardFloor.price = 25;
-    hudCardFloor.type = "brokenFloor";
-    hudCardFloor.defaultX = hudCardFloor.x;
-    hudCardFloor.defaultY = hudCardFloor.Y;
+    hudCardsGroup = new hudGroup.Group();
+    hudCardsGroup.textSize = 24;
+    hudCardsGroup.textFill = "white";
 
-    hudCardCloud = new hudCardsGroup.Sprite(709, 61);
-    hudCardCloud.img = assetHUDCardCloud;
-    hudCardCloud.price = 50;
-    hudCardCloud.type = "cloud";
-    hudCardCloud.defaultX = hudCardCloud.x;
-    hudCardCloud.defaultY = hudCardCloud.Y;
+    hudCardFloor = new hudCardsGroup.Sprite();
+    {
+        hudCardFloor.img = assetHUDCardBrokenFloor;
+        hudCardFloor.selected = false;
+        hudCardFloor.text = "1";
+        hudCardFloor.price = 25;
+        hudCardFloor.type = "brokenFloor";
+        hudCardFloor.defaultX = hudCardFloor.x = 611;
+        hudCardFloor.defaultY = hudCardFloor.y = 61;
+    } // broken floor card
 
-    hudCardWaterGun = new hudCardsGroup.Sprite(807, 61);
-    hudCardWaterGun.img = assetHUDCardWaterGun;
-    hudCardWaterGun.price = 100;
-    hudCardWaterGun.type = "waterGun";
-    hudCardWaterGun.defaultX = hudCardWaterGun.x;
-    hudCardWaterGun.defaultY = hudCardWaterGun.Y;
+    hudCardCloud = new hudCardsGroup.Sprite();
+    {
+        hudCardCloud.img = assetHUDCardCloud;
+        hudCardCloud.selected = false;
+        hudCardCloud.text = "2";
+        hudCardCloud.price = 50;
+        hudCardCloud.type = "cloud";
+        hudCardCloud.defaultX = hudCardCloud.x = 709;
+        hudCardCloud.defaultY = hudCardCloud.y = 61;
+    } // cloud card
 
-    hudCardMirror = new hudCardsGroup.Sprite(905, 61);
-    hudCardMirror.img = assetHUDCardMirror;
-    hudCardMirror.price = 200;
-    hudCardMirror.type = "mirror";
-    hudCardMirror.defaultX = hudCardMirror.x;
-    hudCardMirror.defaultY = hudCardMirror.Y;
+    hudCardWaterGun = new hudCardsGroup.Sprite();
+    {
+        hudCardWaterGun.img = assetHUDCardWaterGun;
+        hudCardWaterGun.selected = false;
+        hudCardWaterGun.text = "3";
+        hudCardWaterGun.price = 100;
+        hudCardWaterGun.type = "waterGun";
+        hudCardWaterGun.defaultX = hudCardWaterGun.x = 807;
+        hudCardWaterGun.defaultY = hudCardWaterGun.y = 61;
+    } // waterGun card
+
+    hudCardMirror = new hudCardsGroup.Sprite();
+
+    {
+        hudCardMirror.img = assetHUDCardMirror;
+        hudCardMirror.selected = false;
+        hudCardMirror.text = "4";
+        hudCardMirror.price = 200;
+        hudCardMirror.type = "mirror";
+        hudCardMirror.defaultX = hudCardMirror.x = 905;
+        hudCardMirror.defaultY = hudCardMirror.y = 61;
+    } // mirror card
 
     // hud.draw = () => {
     //
@@ -334,176 +413,235 @@ function setupGame() {
     // let randomSpawn = setInterval(() => {
     //     new attackerGroup.Sprite();
     // }, 4 * 1000);
-    timeHandler.setInterval("ghostSpawn", 4 * 60, 120 * 60);
     timeHandler.setInterval("periodicPoints", 10 * 60);
 
-    attackerGroup.overlaps(defenderGroup, attackerOverlapsDefender);
+    // attackerGroup.overlaps(defenderGroup, attackerOverlapsDefender);
+
 }
 
 function drawGame() {
-    timeHandler.update();
+    {
+        timeHandler.update();
 
-    // console.log(timer.getRuntime() + " " + frameCount + " " + timer.getTime());
+        // console.log(timer.getRuntime() + " " + frameCount + " " + timer.getTime());
 
-    clear();
-    background(assetGameBackGround);
+        clear();
+        background(assetGameBackGround);
 
-
-    // Stage one
-
-    gameStageOne();
+        // cursor.x = mouse.x;
+        // cursor.y = mouse.y;
 
 
-    mouseOnGridPos = getGridPos(mouse.x, mouse.y);
+        // Story logic
 
-    // console.log(world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"], attackerGroup));
-
-    // HUD
-    for (let card of hudCardsGroup) {
-        if (points > card.price) {
-            card.opacity = 1;
-            if (card.mouse.hovering() && !isSelectingOnGrid) {
-                mouse.cursor = "pointer";
-                card.scale = 1.1;
-            } else {
-                mouse.cursor = "default";
-                card.scale = 1;
+        if (timeHandler.getRuntime() === 1) {
+            audioBackgroundMain.loop();
+        } else if (timeHandler.getTime() > 0 && timeHandler.getTime() < 3) {
+        } else if (timeHandler.getTime() >= 3 && timeHandler.getTime() < 4) {
+            character.moveTowards(400, gameHeight / 2, 0.2);
+        } else if (timeHandler.getTime() >= 4 && timeHandler.getTime() < 8) {
+            if (timeHandler.getRuntime() === 4.5 * 60) {
+                audioGrumble.play();
             }
-
-            if (card.mouse.presses("left")) {
-                gridMode = "placing";
-                isSelectingOnGrid = true;
-                placingMode = card.type;
-            }
-
-        } else {
-            card.opacity = 0.4;
+            bubble.visible = true;
+            bubble.text = "HELP, DE GEESTEN KOMEN ERAAN!";
+        } else if (timeHandler.getTime() >= 8 && timeHandler.getTime() < 13) {
+            bubble.text = "PLAATS SNEL VERDEDIGERS OM ZE TEGEN TE HOUDEN!";
+        } else if (timeHandler.getTime() >= 13 && timeHandler.getTime() < 18) {
+            bubble.text = "GEBRUIK DE KAARTEN AAN DE BOVENKANT VAN HET SCHERM!";
+        } else if (timeHandler.getTime() >= 18 && timeHandler.getTime() < 21) {
+            bubble.text = "VEEL SUCCES! EN BEDANKT!!";
+        } else if (timeHandler.getTime() >= 21 && timeHandler.getTime() < 30) {
+            bubble.visible = false;
+            character.moveTowards(-400, gameHeight / 2, 0.3);
+        } else if (timeHandler.getTime() >= 30) {
+            character.visible = false;
         }
-    }
-
-
-    // When selecting on grid
-    if (mouseOnGridPos["onGrid"]) {
-        // Toggle grid selector mode
-        if (mouse.presses("right")) {
-            isSelectingOnGrid = !isSelectingOnGrid;
+        if (timeHandler.getRuntime() === 25 * 60) {
+            timeHandler.setInterval("ghostSpawn", 6 * 60, 4 * 6 * 60);
         }
 
-        // When in selecting mode
-        if (isSelectingOnGrid && world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"], defenderGroup).length === 0) {
-            gridSelectorSprite.w = mouseOnGridPos["width"];
-            gridSelectorSprite.h = mouseOnGridPos["height"];
+        if (timeHandler.getRuntime() === 25 * 60 + 4 * 6 * 60 * 2) {
+            timeHandler.setInterval("ghostSpawn", 4 * 60, 14 * 4 * 60);
+            audioBackgroundWave.loop();
+            audioBackgroundMain.pause();
+        }
+        if (timeHandler.getRuntime() === 25 * 60 + 4 * 8 * 60 + 14 * 4 * 60) {
+            audioBackgroundWave.pause();
+            audioBackgroundMain.loop();
+        }
 
-            switch (gridMode) {
-                case "placing":
-                    if (mouse.presses("left")) {
-                        if (points >= defenderTypes[placingMode]["price"]) {
-                            new defenderGroup.Sprite(mouseOnGridPos["x"], mouseOnGridPos["y"]);
-                            audioPlop.play();
-                            // points -= 30;
-                            isSelectingOnGrid = false;
-                        } else {
-                            isSelectingOnGrid = false;
-                        }
+        mouseOnGridPos = getGridPos(mouse.x, mouse.y);
+        // console.log(world.getSpriteAt(mouse.x, mouse.y, defenderGroup));
+
+        let gridAvailable = !world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"]).some(sprite => sprite.groups.some(group => defenderGroup.subgroups.includes(group)));
+        // console.log(world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"]).some(sprite => sprite.groups.some(group => defenderGroup.subgroups.includes(group))));
+        // console.log(world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"], defenderGroup));
+        // console.log(world.getSpritesAt(mouse.x, mouse.y));
+        // console.log(allSprites);
+
+
+        // console.log(world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"], attackerGroup));
+
+        // HUD
+        for (let card of hudCardsGroup) {
+            if (points >= card.price) {
+                card.opacity = 1;
+
+                // if (card.mouse.hovering() > 0) {
+                //     card.scale = 1.1;
+                // } else {
+                //     card.scale = 1;
+                // }
+
+
+                if (kb.presses(card.text)) {
+                    if (card.selected) {
+                        card.selected = false;
+                        isSelectingOnGrid = false;
+                        placingMode = "";
+                        gridMode = "";
+                    } else if (!isSelectingOnGrid) {
+                        card.selected = true;
+                        isSelectingOnGrid = true;
+                        gridMode = "placing";
+                        placingMode = card.type;
                     }
-                    break;
-                case "removing":
-                    break;
+                }
 
+
+                if (card.selected && mouseOnGridPos["onGrid"] && mouse.presses("left") && placingMode !== "" && isSelectingOnGrid && gridAvailable) {
+                    spawnDefender(card.type, mouseOnGridPos["x"], mouseOnGridPos["y"]);
+                    points -= card.price;
+                    card.selected = false;
+                    isSelectingOnGrid = false;
+                    placingMode = "";
+                    gridMode = "";
+                }
+            } else {
+                card.opacity = 0.4;
             }
 
-            gridSelectorSprite.visible = true;
+
+            if (mouse.presses("right")) {
+                card.selected = false;
+                isSelectingOnGrid = false;
+                placingMode = "";
+                gridMode = "";
+            }
+
+            // console.log(card.type + " " + card.selected);
+
+            if (card.selected && isSelectingOnGrid) {
+                // console.log("Debug");
+                card.x = mouse.x;
+                card.y = mouse.y;
+            } else {
+                card.x = card.defaultX;
+                card.y = card.defaultY;
+            }
+        }
+
+        // When selecting on grid
+        if (mouseOnGridPos["onGrid"]) {
+
+            // When in selecting mode
+            if (isSelectingOnGrid && gridAvailable) {
+                gridSelectorSprite.w = mouseOnGridPos["width"];
+                gridSelectorSprite.h = mouseOnGridPos["height"];
+
+
+                gridSelectorSprite.visible = true;
+            } else {
+                gridSelectorSprite.visible = false;
+            }
+            gridSelectorSprite.x = mouseOnGridPos["x"];
+            gridSelectorSprite.y = mouseOnGridPos["y"];
         } else {
             gridSelectorSprite.visible = false;
         }
-        gridSelectorSprite.x = mouseOnGridPos["x"];
-        gridSelectorSprite.y = mouseOnGridPos["y"];
-    } else {
-        gridSelectorSprite.visible = false;
-    }
 
+        // ghostSpawn interval
+        if (timeHandler.getIntervalTimeLeft("ghostSpawn") === 0) {
+            let num = Math.floor(random(4));
+            switch (num) {
+                case 0:
+                    new normalGhostGroup.Sprite();
+                    break;
+                case 1:
+                    new femaleGhostGroup.Sprite();
+                    break;
+                case 2:
+                    new gangsterGhostGroup.Sprite();
+                    break;
+                case 3:
+                    new mysteriousGhostGroup.Sprite();
+                    break;
+            }
+            log("Ghost spawned: " + num);
+        }
 
-    // if (selectorOnGrid["onGrid"] && !gridSelectorSprite.overlaps(defenderGroup)) {
-    //     gridSelectorSprite.stroke = "red";
-    //     gridSelectorSprite.w = selectorOnGrid["width"];
-    //     gridSelectorSprite.h = selectorOnGrid["height"];
-    //     gridSelectorSprite.visible = true;
-    //
-    //
-    //
-    // } else {
-    //     gridSelectorSprite.visible = false;
-    //
-    // }
+        // Entity logic
+        for (let i = 0; i < attackerGroup.length; i++) {
+            let attacker = attackerGroup[i];
 
-    // ghostSpawn interval
-    if (timeHandler.getIntervalTimeLeft("ghostSpawn") === 0) {
-        new attackerGroup.Sprite();
-    }
+            // Location checkers
+            if (attacker.x <= frontLineXPos) {
+                attacker.moveTowards(150, gameHeight / 2, 1);
 
-    // // Spawn on grid
-    // if (
-    //     selectorOnGrid["onGrid"]
-    //     && grid[selectorOnGrid["rowName"]][selectorOnGrid["columnName"]] == null
-    //     && mouse.presses("left")
-    //     && isSelectingOnGrid
-    //     // && points >= 30
-    // ) {
-    //     new defenderGroup.Sprite(selectorOnGrid["x"], selectorOnGrid["y"]);
-    //     audioPlop.play();
-    //     points -= 30;
-    //     isSelectingOnGrid = !isSelectingOnGrid;
-    // }
-
-    // console.log(defenderGroup)
-
-    // Entity logic
-    for (let i = 0; i < attackerGroup.length; i++) {
-        let attacker = attackerGroup[i];
-
-        // Location checkers
-        if (attacker.x <= frontLineXPos) {
-            attacker.moveTowards(150, gameHeight / 2, 1);
+            }
 
         }
-        // Overlap checkers
-        // if (attacker.overlaps(defenderGroup)) {
-        //     console.log("Test");
-        // }
 
-    }
+        for (let i = 0; i < defenderGroup.length; i++) {
+            let defender = defenderGroup[i];
 
-    for (let i = 0; i < defenderGroup.length; i++) {
-        let defender = defenderGroup[i];
-
-    }
-
-    // cursor.moveTowards(mouse, 0.5);
-    // cursor.x = mouse.x;
-    // cursor.y = mouse.y;
-
-    // Click noise
-    if (mouse.presses("left")) {
-        switch (Math.floor(random(2))) {
-            case 0:
-                audioMouseClickA.play();
-                break;
-            case 1:
-                audioMouseClickB.play();
-                break;
         }
-    }
 
-    // Periodic points
-    if (timeHandler.getIntervalTimeLeft("periodicPoints") === 0) {
-        // audioWaterDrop.play();
-        points += 20;
-    }
+        // Click noise
+        if (mouse.presses("left")) {
+            switch (Math.floor(random(2))) {
+                case 0:
+                    audioMouseClickA.play();
+                    break;
+                case 1:
+                    audioMouseClickB.play();
+                    break;
+            }
+        }
 
-    // Update info HUD
-    clockInfoSprite.text = timeHandler.getTime() < 60 ? timeHandler.getTime() + "s" : Math.floor(timeHandler.getTime() / 60) + "m " + timeHandler.getTime() % 60 + "s";
-    selectingInfoSprite.text = "Selecting: " + isSelectingOnGrid;
-    pointsInfoSprite.text = points;
+        // Periodic points
+        if (timeHandler.getIntervalTimeLeft("periodicPoints") === 0) {
+            audioWaterDrop.play();
+            points += 20;
+        }
+
+        for (let cloud of cloudGroup) {
+            cloud.text = defenderTypes["cloud"]["productionTime"] - Math.floor(timeHandler.getIntervalTimeLeft("cloudProduce" + cloud.toString()) / 60);
+            if (timeHandler.getIntervalTimeLeft("cloudProduce" + cloud.toString()) === 0) {
+                points += defenderTypes["cloud"]["productionAmount"];
+                audioWaterDrop.play();
+            }
+        }
+
+        for (let waterGun of waterGunGroup) {
+            if (timeHandler.getIntervalTimeLeft("waterGunShoot" + waterGun.toString()) === 0) {
+                waterGun.changeAni("shooting").then(r => {
+                    new projectilesGroup.Sprite(waterGun.x + 25, waterGun.y);
+                    waterGun.changeAni("idle");
+                });
+            }
+        }
+
+        // Update info HUD
+        clockInfoSprite.text = timeHandler.getTime() < 60 ? timeHandler.getTime() + "s" : Math.floor(timeHandler.getTime() / 60) + "m " + timeHandler.getTime() % 60 + "s";
+        // selectingInfoSprite.text = "Selecting: " + placingMode;
+        pointsInfoSprite.text = points;
+
+        console.log("Grid available: GRIDAV, selecting: ISSEL, grid mode: GRIDMO; GRIDSELMO, placing: PLACINGMO".replace("GRIDAV", gridAvailable).replace("ISSEL", isSelectingOnGrid).replace("GRIDMO", gridMode).replace("GRIDSELMO", gridSelectorMode).replace("PLACINGMO", placingMode));
+
+        allSprites.draw();
+    }
 }
 
 function loadLevel(level) {
@@ -542,28 +680,51 @@ function getGridPos(xPos = 0, yPos = 0) {
         }
     }
 
-    if (rowName !== "unknown" && columnName !== "unknown") posMatch = true;
+    posMatch = rowName !== "unknown" && columnName !== "unknown" && columnName !== "spawningColumn";
 
     return {x: xNew, y: yNew, columnName: columnName, rowName: rowName, onGrid: posMatch, width: width, height: height}
 }
 
-function gameStageOne() {
-}
-
 function attackerOverlapsDefender(attacker, defender) {
     attacker.remove();
-    defender.remove();
+    if (typeof defender !== vacuumGroup.Sprite) {
+        defender.remove();
+    }
 }
 
 function spawnDefender(type = "", x, y) {
+    let spawnedDefender = null;
     switch (type) {
         case "brokenFloor":
+            spawnedDefender = new brokenFloorGroup.Sprite(x, y);
             break;
         case "waterGun":
+            spawnedDefender = new waterGunGroup.Sprite(x, y);
+            timeHandler.setInterval("waterGunShoot" + spawnedDefender.toString(), 180);
+            spawnedDefender.changeAni("idle");
             break;
         case "cloud":
+            spawnedDefender = new cloudGroup.Sprite(x, y);
+            timeHandler.setInterval("cloudProduce" + spawnedDefender.toString(), 60 * defenderTypes["cloud"]["productionTime"]);
             break;
         case "mirror":
+            spawnedDefender = new mirrorGroup.Sprite(x, y);
+            spawnedDefender.changeAni("inTact");
             break;
+    }
+
+    console.log("Spawned:");
+    console.log(spawnedDefender);
+    placingMode = "";
+}
+
+function damageEntity(entity, damage) {
+    entity.health -= damage;
+    if (entity.health <= 0) {
+        entity.remove();
+        attackerTypes[entity.type]["deathSound"].play();
+        return false;
+    } else {
+        return true;
     }
 }

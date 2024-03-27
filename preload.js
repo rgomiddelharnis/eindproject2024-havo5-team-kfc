@@ -6,11 +6,13 @@ let assetButtonStart, assetButtonSettings;
 // Game
 let assetGameBackGround;
 
-let assetCharacter;
+let assetCharacter, assetBubble;
 
 let assetGhostNormal, assetGhostGangster, assetGhostMysterious, assetGhostFemale;
 let assetWaterGun, assetWaterPistolActivate, assetWaterPistolShooting;
 let assetVacuum, assetBrokenFloor, assetMirror, assetMirrorBroken, assetCloud;
+
+let assetWaterProjectile;
 
 let assetGameBackgroundHUD;
 let assetHUDCardBrokenFloor, assetHUDCardCloud, assetHUDCardWaterGun, assetHUDCardMirror;
@@ -21,10 +23,15 @@ let audioBackgroundMain, audioBackgroundWave, audioBreakMirror, audioDestroyMirr
     audioGrumble, audioMouseClickA, audioMouseClickB, audioPlop, audioRaining, audioSplashA, audioSplashB, audioVacuum,
     audioWaterDrop;
 
+let assetGameArt;
+
 function preload() {
     // Background assets
     assetBackgroundMainMenu = customLoadArt("asset/art/background/mainMenu.jpg");
     assetGameBackGround = customLoadArt("asset/art/background/Speelveld.jpg")
+
+    // Game art
+    assetGameArt = customLoadArt("asset/art/Titel.jpg");
 
     // Button assets
     assetButtonStart = customLoadArt("asset/art/button/start.png");
@@ -33,6 +40,7 @@ function preload() {
     // Character
 
     assetCharacter = customLoadArt("asset/art/character/deGroot.png");
+    assetBubble = customLoadArt("asset/art/character/TekstWolkje.png");
 
     // HUD assets
     assetGameBackgroundHUD = customLoadArt("asset/art/hud/Overlay.png");
@@ -41,6 +49,8 @@ function preload() {
     assetHUDCardWaterGun = customLoadArt("asset/art/hud/Kaartje waterpistool.png");
     assetHUDCardMirror = customLoadArt("asset/art/hud/Kaartje spiegel.png");
 
+    // Projectiles
+    assetWaterProjectile = customLoadArt("asset/art/projectiles/Ronde waterdruppel.png");
 
     // Ghost assets
     assetGhostNormal = customLoadArt("asset/art/ghost/normal.png");

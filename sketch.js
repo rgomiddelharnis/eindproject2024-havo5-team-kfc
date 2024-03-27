@@ -3,9 +3,9 @@ const gameHeight = 1080;
 
 let canvas;
 
-let gameState = 'game';
+let gameState = 'mainMenu';
 let gameStage = 0;
-let points = 50;
+let points = 100;
 let score = 0;
 let alive = true;
 let level = 1;
@@ -13,8 +13,7 @@ let level = 1;
 function setup() {
     canvas = new Canvas(gameWidth, gameHeight, "fullscreen");
     // Initial setup
-    // setupMenu();
-    setupGame();
+    setupMenu();
 }
 
 function draw() {
@@ -25,14 +24,18 @@ function draw() {
         case "game":
             drawGame();
             break;
-        case "gamePaused":
-            // Draw the game
+    }
+}
+
+function switchScreen(screen) {
+    gameState = screen;
+    allSprites.remove();
+    switch (screen) {
+        case "mainMenu":
+            setupMenu();
             break;
-        case "gameOver":
-            // Draw the game
-            break;
-        case "gameWon":
-            // Draw the game
+        case "game":
+            setupGame();
             break;
     }
 }
