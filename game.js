@@ -168,15 +168,15 @@ function setupGame() {
         1: {
             health: 200,
             damage: 30,
-            velocity: -2,
+            velocity: -1.8,
             asset: assetGhostNormal,
             roamingSound: [audioGhostRoamingA],
             deathSound: audioGhostDying
         },
         2: {
-            health: 200,
+            health: 160,
             damage: 30,
-            velocity: -2,
+            velocity: -2.4,
             asset: assetGhostFemale,
             roamingSound: [audioGhostFemaleRoamingA, audioGhostFemaleRoamingB],
             deathSound: audioGhostFemaleDying
@@ -184,7 +184,7 @@ function setupGame() {
         3: {
             health: 260,
             damage: 30,
-            velocity: -1.5,
+            velocity: -1.4,
             asset: assetGhostGangster,
             roamingSound: [audioGhostRoamingA],
             deathSound: audioGhostDying
@@ -192,7 +192,7 @@ function setupGame() {
         4: {
             health: 200,
             damage: 30,
-            velocity: -2.5,
+            velocity: -2.2,
             asset: assetGhostMysterious,
             roamingSound: [audioGhostRoamingB],
             deathSound: audioGhostDying
@@ -200,15 +200,17 @@ function setupGame() {
     };
 
     attackerGroup.overlaps(mirrorGroup, (attacker, mirror) => {
-        mirror.health--;
-        attacker.remove();
-        attackerTypes[attacker.type]["deathSound"].play();
-        if (mirror.health === 1) {
-            mirror.changeAni("broken");
-            audioBreakMirror.play();
-        } else if (mirror.health === 0) {
-            mirror.remove();
-            audioDestroyMirror.play();
+        if (attacker.type !== 2) {
+            mirror.health--;
+            attacker.remove();
+            attackerTypes[attacker.type]["deathSound"].play();
+            if (mirror.health === 1) {
+                mirror.changeAni("broken");
+                audioBreakMirror.play();
+            } else if (mirror.health === 0) {
+                mirror.remove();
+                audioDestroyMirror.play();
+            }
         }
     });
 
@@ -414,7 +416,7 @@ function setupGame() {
     // let randomSpawn = setInterval(() => {
     //     new attackerGroup.Sprite();
     // }, 4 * 1000);
-    timeHandler.setInterval("periodicPoints", 10 * 60);
+    timeHandler.setInterval("periodicPoints", 8 * 60);
 
     // attackerGroup.overlaps(defenderGroup, attackerOverlapsDefender);
 
@@ -459,16 +461,17 @@ function drawGame() {
         } else if (timeHandler.getTime() >= 30) {
             character.visible = false;
         }
-        if (timeHandler.getRuntime() === 25 * 60) {
+        if (timeHandler.getRuntime() / 60 === 25) {
             timeHandler.setInterval("ghostSpawn", 6 * 60, 4 * 6 * 60);
         }
 
-        if (timeHandler.getRuntime() === 25 * 60 + 4 * 6 * 60 * 2) {
+        if (timeHandler.getRuntime() / 60 === 25 + 4 * 6 * 2) {
             timeHandler.setInterval("ghostSpawn", 4 * 60, 14 * 4 * 60);
             audioBackgroundWave.loop();
             audioBackgroundMain.pause();
         }
-        if (timeHandler.getRuntime() === 25 * 60 + 4 * 8 * 60 + 14 * 4 * 60) {
+        if (timeHandler.getRuntime() / 60 === 25 + 4 * 8 + 14 * 4) {
+            timeHandler.setInterval("ghostSpawn", 8 * 60);
             audioBackgroundWave.pause();
             audioBackgroundMain.loop();
         }
@@ -477,6 +480,7 @@ function drawGame() {
         // console.log(world.getSpriteAt(mouse.x, mouse.y, defenderGroup));
 
         let gridAvailable = !world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"]).some(sprite => sprite.groups.some(group => defenderGroup.subgroups.includes(group)));
+        // let gridAvailable = !world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"]).some(sprite => sprite.groups.includes(defenderGroup));
         // console.log(world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"]).some(sprite => sprite.groups.some(group => defenderGroup.subgroups.includes(group))));
         // console.log(world.getSpritesAt(mouseOnGridPos["x"], mouseOnGridPos["y"], defenderGroup));
         // console.log(world.getSpritesAt(mouse.x, mouse.y));
@@ -620,7 +624,7 @@ function drawGame() {
         // Periodic points
         if (timeHandler.getIntervalTimeLeft("periodicPoints") === 0) {
             audioWaterDrop.play();
-            points += 20;
+            points += 30;
         }
 
         for (let cloud of cloudGroup) {

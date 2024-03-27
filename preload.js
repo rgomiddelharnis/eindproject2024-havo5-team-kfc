@@ -29,7 +29,7 @@ let assetGameArt;
 
 function preload() {
     // Background assets
-    assetBackgroundMainMenu = customLoadArt("asset/art/background/mainMenu.jpg");
+    assetBackgroundMainMenu = customLoadArt("asset/art/background/informatica.png");
     assetGameBackGround = customLoadArt("asset/art/background/Speelveld.jpg")
     assetGameOverScreen = customLoadArt("asset/art/background/gameover.png");
 
