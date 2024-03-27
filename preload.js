@@ -3,6 +3,8 @@ let assetBackgroundMainMenu;
 
 let assetButtonStart, assetButtonSettings;
 
+let assetGameOverScreen;
+
 // Game
 let assetGameBackGround;
 
@@ -29,6 +31,7 @@ function preload() {
     // Background assets
     assetBackgroundMainMenu = customLoadArt("asset/art/background/mainMenu.jpg");
     assetGameBackGround = customLoadArt("asset/art/background/Speelveld.jpg")
+    assetGameOverScreen = customLoadArt("asset/art/background/gameover.png");
 
     // Game art
     assetGameArt = customLoadArt("asset/art/Titel.jpg");

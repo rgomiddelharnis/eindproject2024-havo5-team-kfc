@@ -1,6 +1,7 @@
 const enemyStartLine = gameWidth - 150;
 
 let cursor;
+let gameOverButton;
 
 // Time handler
 let timeHandler;
@@ -420,7 +421,8 @@ function setupGame() {
 }
 
 function drawGame() {
-    {
+    allSprites.autoDraw = false;
+    if (alive) {
         timeHandler.update();
 
         // console.log(timer.getRuntime() + " " + frameCount + " " + timer.getTime());
@@ -591,6 +593,11 @@ function drawGame() {
 
             }
 
+            if (attacker.x <= 150) {
+                audioSplashA.play();
+                alive = false;
+            }
+
         }
 
         for (let i = 0; i < defenderGroup.length; i++) {
@@ -641,6 +648,21 @@ function drawGame() {
         console.log("Grid available: GRIDAV, selecting: ISSEL, grid mode: GRIDMO; GRIDSELMO, placing: PLACINGMO".replace("GRIDAV", gridAvailable).replace("ISSEL", isSelectingOnGrid).replace("GRIDMO", gridMode).replace("GRIDSELMO", gridSelectorMode).replace("PLACINGMO", placingMode));
 
         allSprites.draw();
+    } else if (gameStage > 1) {
+        if (gameStage === 2) {
+            gameStage++;
+            gameOverButton = new overlayGroup.Sprite(gameWidth / 2, gameHeight / 3 * 2);
+        }
+
+        if (gameOverButton.mouse.presses("left")) {
+            audioMouseClickA.play();
+            switchScreen("game");
+        }
+
+        clear();
+        background();
+        gameOverButton.draw();
+
     }
 }
 
